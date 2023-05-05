@@ -162,3 +162,37 @@ export const searchFunctions = (event) => {
     selectors.searchMenu.close();
   }
 };
+
+/**
+ * This function creates a results array which fills with book objects based on matches in the if else statements, once the loop completes, the results are pushed to the webpage
+ */
+export const createSearchHTML = (event) => {
+    event.preventDefault()
+    selectors.searchMenu.close();
+    selectors.moreButton.disabled = true
+    let results = []
+    let genre = selectors.searchGenres.value;
+    let author = selectors.authorsOptions.value
+    selectors.dataListItems.innerHTML = ``;
+    for (let book of matches) {
+      if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
+          results.push(book);
+      } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
+          results.push(book);
+      } else if (genre === "All Genres" && book.author === author && selectors.searchTitle.value === ""
+      ) {
+          results.push(book);
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && author === "All Authors" && genre === "All Genres") {
+          results.push(book)
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && book.author === author) {
+          results.push(book);
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && author === "All Authors") {
+          results.push(book);
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
+          results.push(book);
+      } else if (results.length === 0) {
+        selectors.noResultsMessage.classList.add("list__message_show");
+      }
+    }
+    selectors.dataListItems.appendChild(createPreviewsFragment(results, 0, 36));
+}

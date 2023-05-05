@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
-import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview, searchFunctions } from "./functions.js";
+import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview, searchFunctions, createSearchHTML } from "./functions.js";
 
 export const matches = books
 const range = [0, BOOKS_PER_PAGE];
@@ -78,36 +78,7 @@ selectors.authorsOptions.appendChild(authorList)
 /**
  * this event listener will prevent default upon submission, then creates an array of filtered books and displays them on the webpage
  */
-selectors.searchForm.addEventListener('submit', (event) => {
-    event.preventDefault()
-    selectors.searchMenu.close();
-    selectors.moreButton.disabled = true
-    let results = []
-    let genre = selectors.searchGenres.value;
-    let author = selectors.authorsOptions.value
-    selectors.dataListItems.innerHTML = ``;
-    for (let book of matches) {
-      if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
-          results.push(book);
-      } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
-          results.push(book);
-      } else if (genre === "All Genres" && book.author === author && selectors.searchTitle.value === ""
-      ) {
-          results.push(book);
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && author === "All Authors" && genre === "All Genres") {
-          results.push(book)
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && book.author === author) {
-          results.push(book);
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && author === "All Authors") {
-          results.push(book);
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
-          results.push(book);
-      } else if (results.length === 0) {
-        selectors.noResultsMessage.classList = "list__message_show";
-      }
-    }
-    selectors.dataListItems.appendChild(createPreviewsFragment(results, 0, 36));
-})
+selectors.searchForm.addEventListener('submit', createSearchHTML)
 
 
 // data-search-form.click(filters) {
