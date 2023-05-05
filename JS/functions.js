@@ -45,12 +45,18 @@ export const singleBookPreview = (event) => {
     buttons.bookPreview.close();
     }
     for (let book of books) {
-        if (target.getAttribute("data-preview") === book.id || target.parentNode.parentNode.getAttribute("data-preview") === book.id) {
-            buttons.bookPreviewImage.src = book.image
-            buttons.bookPreviewBlur.src = book.image
-            buttons.bookPreviewTitle.textContent = book.title
-            buttons.bookPreviewSubtitle.textContent = `${authors[book.author]} (${new Date(book.published).getFullYear()})`
-            buttons.bookPreviewDescription.textContent = book.description
+        if (
+          target.getAttribute("data-preview") === book.id ||
+          target.parentNode.parentNode.getAttribute("data-preview") === book.id ||
+          target.parentNode.getAttribute("data-preview") === book.id
+        ) {
+          buttons.bookPreviewImage.src = book.image;
+          buttons.bookPreviewBlur.src = book.image;
+          buttons.bookPreviewTitle.textContent = book.title;
+          buttons.bookPreviewSubtitle.textContent = `${
+            authors[book.author]
+          } (${new Date(book.published).getFullYear()})`;
+          buttons.bookPreviewDescription.textContent = book.description;
         }
     }
 };
