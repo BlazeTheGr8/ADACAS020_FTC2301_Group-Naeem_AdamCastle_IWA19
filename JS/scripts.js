@@ -78,6 +78,34 @@ for (let [id, name] of Object.entries(authors)) {
 }
 selectors.authorsOptions.appendChild(authorList)
 
+/**
+ * this event listener will prevent default upon submission, then creates an array of filtered books and displays them on the webpage
+ */
+selectors.searchForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    let results = []
+    // const formData = new FormData(selectors.searchForm, selectors.beginSearch);
+    // console.log(formData)
+    let genre = selectors.searchGenres.value;
+    let author = selectors.authorsOptions.value
+    console.log(genre, author);
+    // bookList = matches
+    for (let book of matches) {
+        if (book.genres.includes(genre) && book.author === author) {
+            results.push(book)
+            console.log('heyy')
+        } else if (book.genres.includes(genre) && author === 'All Genres') {
+            results.push(book);
+            console.log("heyy");
+        }
+    }
+    console.log(results)
+})
+
+console.log(selectors.searchGenres.value)
+
+
+
 
 // data-search-form.click(filters) {
 //     preventDefault()

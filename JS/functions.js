@@ -9,28 +9,29 @@ let page = 0;
  * object containing all HTML elements necessary for selection and manipulation
  */
 export const selectors = {
-    searchButton: document.querySelector("[data-header-search]"),
-    cancelSearch: document.querySelector("[data-search-cancel]"),
-    settingsButton: document.querySelector("[data-header-settings]"),
-    settingsCancel: document.querySelector("[data-settings-cancel]"),
-    settingsForm: document.querySelector("[data-settings-overlay]"),
-    saveSettings: document.querySelector("[data-settings-form]"),
-    dataListItems: document.querySelector("[data-list-items]"),
-    moreButton: document.querySelector("[data-list-button]"),
-    themeSettings: document.querySelector('[data-settings-theme]'),
-    themeChoice: document.querySelector("[data-settings-theme]"),
-    searchGenres: document.querySelector("[data-search-genres]"),
-    authorsOptions: document.querySelector("[data-search-authors]"),
-    searchForm: document.querySelector('[data-search-form]'),
-    singleBook: document.querySelectorAll('.preview'),
-    bookPreview: document.querySelector('[data-list-active]'),
-    bookPreviewClose: document.querySelector('[data-list-close]'),
-    bookPreviewImage: document.querySelector('[data-list-image]'),
-    bookPreviewTitle: document.querySelector('[data-list-title]'),
-    bookPreviewSubtitle: document.querySelector('[data-list-subtitle]'),
-    bookPreviewDescription: document.querySelector('[data-list-description]'),
-    bookPreviewBlur: document.querySelector('[data-list-blur]')
-}
+  searchButton: document.querySelector("[data-header-search]"),
+  cancelSearch: document.querySelector("[data-search-cancel]"),
+  settingsButton: document.querySelector("[data-header-settings]"),
+  settingsCancel: document.querySelector("[data-settings-cancel]"),
+  settingsForm: document.querySelector("[data-settings-overlay]"),
+  saveSettings: document.querySelector("[data-settings-form]"),
+  dataListItems: document.querySelector("[data-list-items]"),
+  moreButton: document.querySelector("[data-list-button]"),
+  themeSettings: document.querySelector("[data-settings-theme]"),
+  themeChoice: document.querySelector("[data-settings-theme]"),
+  searchGenres: document.querySelector("[data-search-genres]"),
+  authorsOptions: document.querySelector("[data-search-authors]"),
+  searchForm: document.querySelector("[data-search-form]"),
+  singleBook: document.querySelectorAll(".preview"),
+  bookPreview: document.querySelector("[data-list-active]"),
+  bookPreviewClose: document.querySelector("[data-list-close]"),
+  bookPreviewImage: document.querySelector("[data-list-image]"),
+  bookPreviewTitle: document.querySelector("[data-list-title]"),
+  bookPreviewSubtitle: document.querySelector("[data-list-subtitle]"),
+  bookPreviewDescription: document.querySelector("[data-list-description]"),
+  bookPreviewBlur: document.querySelector("[data-list-blur]"),
+  beginSearch: document.querySelector('[form="search"]'),
+};
 
 // Object for theme color values used in themeUpdate() function
 const day = {
