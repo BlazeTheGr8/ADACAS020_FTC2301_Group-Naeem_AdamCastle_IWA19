@@ -11,29 +11,30 @@ let page = 1;
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
+// Adds the first 36 books to webpage
 selectors.dataListItems.appendChild(createPreviewsFragment(matches, 0, 36))
 
+// This section of code adds all present book buttons to an array, then iterates through each of them to add an event listener for clicking, when clicked, the book preview will show to the user
 selectors.singleBook = document.querySelectorAll(".preview");
 for (let button of selectors.singleBook) {
 button.addEventListener("click", singleBookPreview);
 }
 selectors.bookPreviewClose.addEventListener("click", singleBookPreview);
 
-
+// This section of code adds a clicking event for the theme search button, when clicked it will show the dialog tag for them settings, when the close button is clicked in the dialog tag it will close
 selectors.searchButton.addEventListener("click", (event) => {
     document.querySelector("[data-search-overlay]").showModal();
     document.querySelector("[data-search-title]").focus();
-//   data - search - title.focus();
 }); 
-
 selectors.cancelSearch.addEventListener("click", (event) => {
   document.querySelector("[data-search-overlay]").close();
 });
 
+// This section of code adds a clicking event for the theme settings button, when clicked it will show the dialog tag for them settings, when the close button is clicked in the dialog tag it will close
 selectors.settingsButton.addEventListener('click', settingsEvents)
-
 selectors.settingsCancel.addEventListener('click', settingsEvents)
 
+// This code adds text to the Show More button and also calculates remaining books to display
 selectors.moreButton.innerHTML = /* html */
     `<span>Show more</span>
     <span class="list__remaining">${
@@ -42,45 +43,40 @@ selectors.moreButton.innerHTML = /* html */
         : 0
 }</span>`;
 
+// This code adds a click event to the moreButton which will display the next 36 books when clicked
 selectors.moreButton.addEventListener('click', moreBooks) 
 
+// This sets the web theme to the same as the users device preferences
 selectors.themeSettings.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
 
+// This code changes the them when the user saves their choice
 selectors.saveSettings.addEventListener('submit', themeUpdate)
 
+// This code creates the search options for genres
 const genresList = document.createDocumentFragment()
-let elementGenre = 'All Genres'
-selectors.searchGenres.innerHTML = `<option>${elementGenre}</option>`
-
+let presetGenre = 'All Genres'
+selectors.searchGenres.innerHTML = `<option>${presetGenre}</option>`
 selectors.searchGenres.appendChild(genresList);
-
 for (let [genreID, genreName] of Object.entries(genres)) {
     let genreOption = document.createElement("option");
     genreOption.innerText = `${genreName}`
     genreOption.value = genreID
     genresList.appendChild(genreOption)
 }
-
 selectors.searchGenres.appendChild(genresList);
 
-const authorList = document.createDocumentFragment()
-let elementAuthors = 'All Authors'
-selectors.authorsOptions.innerHTML = `<option>${elementAuthors}</option>`;
 
+// This code creates the search options for authors
+const authorList = document.createDocumentFragment()
+let presetAuthor = 'All Authors'
+selectors.authorsOptions.innerHTML = `<option>${presetAuthor}</option>`;
 for (let [id, name] of Object.entries(authors)) {
     let authorOption = document.createElement('option')
     authorOption.innerText = `${name}`
     authorOption.value = id
     authorList.appendChild(authorOption)
 }
-
 selectors.authorsOptions.appendChild(authorList)
-
-selectors.bookPreviewClose.addEventListener('click', singleBookPreview)
-
-// data-settings-form.submit() { actions.settings.submit }
-// data-list-close.click() { data-list-active.open === false }
-
 
 
 // data-search-form.click(filters) {
@@ -104,56 +100,8 @@ selectors.bookPreviewClose.addEventListener('click', singleBookPreview)
 //     if display.length < 1 
 //     data-list-message.class.add('list__message_show')
 //     else data-list-message.class.remove('list__message_show')
-    
 
-//     data-list-items.innerHTML = ''
-//     const fragment = document.createDocumentFragment()
-//     const extracted = source.slice(range[0], range[1])
 
-//     for ({ author, image, title, id }; extracted; i++) {
-//         const { author: authorId, id, image, title } = props
-
-//         element = document.createElement('button')
-//         element.classList = 'preview'
-//         element.setAttribute('data-preview', id)
-
-//         element.innerHTML = /* html */ `
-//             <img
-//                 class="preview__image"
-//                 src="${image}"
-//             />
-            
-//             <div class="preview__info">
-//                 <h3 class="preview__title">${title}</h3>
-//                 <div class="preview__author">${authors[authorId]}</div>
-//             </div>
-//         `
-
-//         fragment.appendChild(element)
-//     }
-    
-//     data-list-items.appendChild(fragments)
-//     initial === matches.length - [page * BOOKS_PER_PAGE]
-//     remaining === hasRemaining ? initial : 0
-//     data-list-button.disabled = initial > 0
-
-//     data-list-button.innerHTML = /* html */ `
-//         <span>Show more</span>
-//         <span class="list__remaining"> (${remaining})</span>
-//     `
-
-//     window.scrollTo({ top: 0, behavior: 'smooth' });
-//     data-search-overlay.open = false
-// }
-
-// data-settings-overlay.submit; {
-//     preventDefault()
-//     const formData = new FormData(event.target)
-//     const result = Object.fromEntries(formData)
-//     document.documentElement.style.setProperty('--color-dark', css[result.theme].dark);
-//     document.documentElement.style.setProperty('--color-light', css[result.theme].light);
-//     data-settings-overlay).open === false
-// }
 
 // data-list-items.click() {
 //     pathArray = Array.from(event.path || event.composedPath())
@@ -168,11 +116,3 @@ selectors.bookPreviewClose.addEventListener('click', singleBookPreview)
 //         } 
 //     }
     
-//     if !active return
-//     data-list-active.open === true
-//     data-list-blur + data-list-image === active.image
-//     data-list-title === active.title
-    
-//     data-list-subtitle === '${authors[active.author]} (${Date(active.published).year})'
-//     data-list-description === active.description
-// }

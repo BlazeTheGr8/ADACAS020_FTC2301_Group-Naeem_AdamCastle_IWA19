@@ -1,8 +1,13 @@
 // @ts-nocheck
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 import { fragment, matches } from "./scripts.js";
+
+// page initialized for use in the createPreviewsFragment() function
 let page = 0;
 
+/**
+ * object containing all HTML elements necessary for selection and manipulation
+ */
 export const selectors = {
     searchButton: document.querySelector("[data-header-search]"),
     cancelSearch: document.querySelector("[data-search-cancel]"),
@@ -27,16 +32,22 @@ export const selectors = {
     bookPreviewBlur: document.querySelector('[data-list-blur]')
 }
 
+// Object for theme color values used in themeUpdate() function
 const day = {
   dark: "10, 10, 20",
   light: "255, 255, 255",
 };
 
+// Object for theme color values used in themeUpdate() function
 const night = {
   dark: "255, 255, 255",
   light: "10, 10, 20",
 };
 
+
+/**
+ * This function is by event listeners, when called, it will check if the bookPreview dialog tag is open, and if not, it will show it, if the target then becomes the bookPreviewClose button, the dialog tag will close. It also adds image, title, subtitle and description to the HTML for user viewing
+ */
 export const singleBookPreview = (event) => {
     const { target } = event;
     if (selectors.bookPreview.open === false) {
@@ -61,6 +72,10 @@ export const singleBookPreview = (event) => {
     }
 };
 
+/**
+ * 
+ * This function takes an array, a start and an end. It will then extract 36 books depending on where it starts and ends and create a button for each of them. The function then extracts the relevant information using destructuring and adds it the HTML where needed.
+ */
 export const createPreviewsFragment = (matches, start = (page * BOOKS_PER_PAGE), end = (page + 1) * BOOKS_PER_PAGE) => {
     let extracted = matches.slice(start, end);
     page += 1
@@ -87,6 +102,9 @@ export const createPreviewsFragment = (matches, start = (page * BOOKS_PER_PAGE),
     return fragment
 };
 
+/**
+ * This function toggles the theme settings to close and open when added to an event listener 
+ */
 export const settingsEvents = (event) => {
   const { target } = event;
   if (selectors.settingsForm.open === false) {
@@ -96,6 +114,9 @@ export const settingsEvents = (event) => {
   }
 };
 
+/**
+ * This function will update the theme based on user preference and settings.
+ */
 export const themeUpdate = (event) => {
     event.preventDefault()
     let css = selectors.themeChoice.value;
@@ -109,6 +130,9 @@ export const themeUpdate = (event) => {
     document.querySelector("[data-settings-overlay]").close();
 }
 
+/**
+ *  This function will create buttons for the next 36 books, add relevant classings to them and then add them to the HTML
+ */
 export const moreBooks = (event) => {
     selectors.dataListItems.appendChild(createPreviewsFragment(matches))
     selectors.singleBook = document.querySelectorAll(".preview");
