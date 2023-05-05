@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
-import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview } from "./functions.js";
+import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview, searchFunctions } from "./functions.js";
 
 export const matches = books
 const range = [0, BOOKS_PER_PAGE];
@@ -22,13 +22,9 @@ button.addEventListener("click", singleBookPreview);
 selectors.bookPreviewClose.addEventListener("click", singleBookPreview);
 
 // This section of code adds a clicking event for the theme search button, when clicked it will show the dialog tag for them settings, when the close button is clicked in the dialog tag it will close
-selectors.searchButton.addEventListener("click", (event) => {
-    document.querySelector("[data-search-overlay]").showModal();
-    document.querySelector("[data-search-title]").focus();
-}); 
-selectors.cancelSearch.addEventListener("click", (event) => {
-  document.querySelector("[data-search-overlay]").close();
-});
+
+selectors.searchButton.addEventListener("click", searchFunctions); 
+selectors.cancelSearch.addEventListener("click", searchFunctions);
 
 // This section of code adds a clicking event for the theme settings button, when clicked it will show the dialog tag for them settings, when the close button is clicked in the dialog tag it will close
 selectors.settingsButton.addEventListener('click', settingsEvents)
@@ -69,6 +65,7 @@ selectors.searchGenres.appendChild(genresList);
 // This code creates the search options for authors
 const authorList = document.createDocumentFragment()
 let presetAuthor = 'All Authors'
+selectors.moreButton.innerText = `Shore more (0)`
 selectors.authorsOptions.innerHTML = `<option>${presetAuthor}</option>`;
 for (let [id, name] of Object.entries(authors)) {
     let authorOption = document.createElement('option')
@@ -83,28 +80,34 @@ selectors.authorsOptions.appendChild(authorList)
  */
 selectors.searchForm.addEventListener('submit', (event) => {
     event.preventDefault()
+    selectors.searchMenu.close();
+    selectors.moreButton.disabled = true
     let results = []
-    // const formData = new FormData(selectors.searchForm, selectors.beginSearch);
-    // console.log(formData)
     let genre = selectors.searchGenres.value;
     let author = selectors.authorsOptions.value
-    console.log(genre, author);
-    // bookList = matches
+    selectors.dataListItems.innerHTML = ``;
     for (let book of matches) {
-        if (book.genres.includes(genre) && book.author === author) {
-            results.push(book)
-            console.log('heyy')
-        } else if (book.genres.includes(genre) && author === 'All Genres') {
-            results.push(book);
-            console.log("heyy");
-        }
+      if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
+          results.push(book);
+      } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
+          results.push(book);
+      } else if (genre === "All Genres" && book.author === author && selectors.searchTitle.value === ""
+      ) {
+          results.push(book);
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && author === "All Authors" && genre === "All Genres") {
+          results.push(book)
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && book.author === author) {
+          results.push(book);
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && author === "All Authors") {
+          results.push(book);
+      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
+          results.push(book);
+      } else if (results.length === 0) {
+        selectors.noResultsMessage.classList = "list__message_show";
+      }
     }
-    console.log(results)
+    selectors.dataListItems.appendChild(createPreviewsFragment(results, 0, 36));
 })
-
-console.log(selectors.searchGenres.value)
-
-
 
 
 // data-search-form.click(filters) {

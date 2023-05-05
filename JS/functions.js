@@ -31,6 +31,9 @@ export const selectors = {
   bookPreviewDescription: document.querySelector("[data-list-description]"),
   bookPreviewBlur: document.querySelector("[data-list-blur]"),
   beginSearch: document.querySelector('[form="search"]'),
+  searchMenu: document.querySelector("[data-search-overlay]"),
+  searchTitle: document.querySelector("[data-search-title"),
+  noResultsMessage: document.querySelector("[data-list-message]"),
 };
 
 // Object for theme color values used in themeUpdate() function
@@ -147,3 +150,15 @@ export const moreBooks = (event) => {
     } else {selectors.moreButton.disabled = false;}
 }
 
+/**
+ * This code manages the search dialogue, closes and opens when necessary 
+ */
+export const searchFunctions = (event) => {
+  const { target } = event;
+  if (selectors.searchMenu.open === false) {
+    selectors.searchMenu.showModal();
+    document.querySelector("[data-search-title]").focus();
+  } else if (target === selectors.cancelSearch) {
+    selectors.searchMenu.close();
+  }
+};
