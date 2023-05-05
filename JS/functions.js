@@ -191,9 +191,11 @@ export const createSearchHTML = (event) => {
           results.push(book);
       } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
           results.push(book);
-      } else if (results.length === 0) {
-        selectors.noResultsMessage.classList.add("list__message_show");
-      }
-    }
+      } 
+  }
+    if (results.length === 0) {
+      selectors.noResultsMessage.classList.add("list__message_show");
+  }
+  console.log(results)
     selectors.dataListItems.appendChild(createPreviewsFragment(results, 0, 36));
 }
