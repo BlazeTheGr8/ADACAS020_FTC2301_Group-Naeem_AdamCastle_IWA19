@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
-import { createPreviewsFragment, buttons, settingsEvents, themeUpdate, moreBooks, singleBookPreview } from "./functions.js";
+import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview } from "./functions.js";
 
 export const matches = books
 const range = [0, BOOKS_PER_PAGE];
@@ -11,30 +11,30 @@ let page = 1;
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
-buttons.dataListItems.appendChild(createPreviewsFragment(matches, 0, 36))
+selectors.dataListItems.appendChild(createPreviewsFragment(matches, 0, 36))
 
-buttons.singleBook = document.querySelectorAll(".preview");
-for (let button of buttons.singleBook) {
+selectors.singleBook = document.querySelectorAll(".preview");
+for (let button of selectors.singleBook) {
 button.addEventListener("click", singleBookPreview);
 }
-buttons.bookPreviewClose.addEventListener("click", singleBookPreview);
+selectors.bookPreviewClose.addEventListener("click", singleBookPreview);
 
 
-buttons.searchButton.addEventListener("click", (event) => {
+selectors.searchButton.addEventListener("click", (event) => {
     document.querySelector("[data-search-overlay]").showModal();
     document.querySelector("[data-search-title]").focus();
 //   data - search - title.focus();
 }); 
 
-buttons.cancelSearch.addEventListener("click", (event) => {
+selectors.cancelSearch.addEventListener("click", (event) => {
   document.querySelector("[data-search-overlay]").close();
 });
 
-buttons.settingsButton.addEventListener('click', settingsEvents)
+selectors.settingsButton.addEventListener('click', settingsEvents)
 
-buttons.settingsCancel.addEventListener('click', settingsEvents)
+selectors.settingsCancel.addEventListener('click', settingsEvents)
 
-buttons.moreButton.innerHTML = /* html */
+selectors.moreButton.innerHTML = /* html */
     `<span>Show more</span>
     <span class="list__remaining">${
       matches.length - [page * BOOKS_PER_PAGE] > 0
@@ -42,17 +42,17 @@ buttons.moreButton.innerHTML = /* html */
         : 0
 }</span>`;
 
-buttons.moreButton.addEventListener('click', moreBooks) 
+selectors.moreButton.addEventListener('click', moreBooks) 
 
-buttons.themeSettings.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+selectors.themeSettings.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
 
-buttons.saveSettings.addEventListener('submit', themeUpdate)
+selectors.saveSettings.addEventListener('submit', themeUpdate)
 
 const genresList = document.createDocumentFragment()
 let elementGenre = 'All Genres'
-buttons.searchGenres.innerHTML = `<option>${elementGenre}</option>`
+selectors.searchGenres.innerHTML = `<option>${elementGenre}</option>`
 
-buttons.searchGenres.appendChild(genresList);
+selectors.searchGenres.appendChild(genresList);
 
 for (let [genreID, genreName] of Object.entries(genres)) {
     let genreOption = document.createElement("option");
@@ -61,11 +61,11 @@ for (let [genreID, genreName] of Object.entries(genres)) {
     genresList.appendChild(genreOption)
 }
 
-buttons.searchGenres.appendChild(genresList);
+selectors.searchGenres.appendChild(genresList);
 
 const authorList = document.createDocumentFragment()
 let elementAuthors = 'All Authors'
-buttons.authorsOptions.innerHTML = `<option>${elementAuthors}</option>`;
+selectors.authorsOptions.innerHTML = `<option>${elementAuthors}</option>`;
 
 for (let [id, name] of Object.entries(authors)) {
     let authorOption = document.createElement('option')
@@ -74,9 +74,9 @@ for (let [id, name] of Object.entries(authors)) {
     authorList.appendChild(authorOption)
 }
 
-buttons.authorsOptions.appendChild(authorList)
+selectors.authorsOptions.appendChild(authorList)
 
-buttons.bookPreviewClose.addEventListener('click', singleBookPreview)
+selectors.bookPreviewClose.addEventListener('click', singleBookPreview)
 
 // data-settings-form.submit() { actions.settings.submit }
 // data-list-close.click() { data-list-active.open === false }

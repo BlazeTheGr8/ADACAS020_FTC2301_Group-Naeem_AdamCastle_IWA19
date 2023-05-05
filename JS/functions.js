@@ -3,7 +3,7 @@ import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 import { fragment, matches } from "./scripts.js";
 let page = 0;
 
-export const buttons = {
+export const selectors = {
     searchButton: document.querySelector("[data-header-search]"),
     cancelSearch: document.querySelector("[data-search-cancel]"),
     settingsButton: document.querySelector("[data-header-settings]"),
@@ -39,10 +39,10 @@ const night = {
 
 export const singleBookPreview = (event) => {
     const { target } = event;
-    if (buttons.bookPreview.open === false) {
-    buttons.bookPreview.showModal();
-  } else if (target === buttons.bookPreviewClose) {
-    buttons.bookPreview.close();
+    if (selectors.bookPreview.open === false) {
+    selectors.bookPreview.showModal();
+  } else if (target === selectors.bookPreviewClose) {
+    selectors.bookPreview.close();
     }
     for (let book of books) {
         if (
@@ -50,13 +50,13 @@ export const singleBookPreview = (event) => {
           target.parentNode.parentNode.getAttribute("data-preview") === book.id ||
           target.parentNode.getAttribute("data-preview") === book.id
         ) {
-          buttons.bookPreviewImage.src = book.image;
-          buttons.bookPreviewBlur.src = book.image;
-          buttons.bookPreviewTitle.textContent = book.title;
-          buttons.bookPreviewSubtitle.textContent = `${
+          selectors.bookPreviewImage.src = book.image;
+          selectors.bookPreviewBlur.src = book.image;
+          selectors.bookPreviewTitle.textContent = book.title;
+          selectors.bookPreviewSubtitle.textContent = `${
             authors[book.author]
           } (${new Date(book.published).getFullYear()})`;
-          buttons.bookPreviewDescription.textContent = book.description;
+          selectors.bookPreviewDescription.textContent = book.description;
         }
     }
 };
@@ -89,16 +89,16 @@ export const createPreviewsFragment = (matches, start = (page * BOOKS_PER_PAGE),
 
 export const settingsEvents = (event) => {
   const { target } = event;
-  if (buttons.settingsForm.open === false) {
-    buttons.settingsForm.showModal();
-  } else if (target === buttons.settingsCancel) {
-    buttons.settingsForm.close();
+  if (selectors.settingsForm.open === false) {
+    selectors.settingsForm.showModal();
+  } else if (target === selectors.settingsCancel) {
+    selectors.settingsForm.close();
   }
 };
 
 export const themeUpdate = (event) => {
     event.preventDefault()
-    let css = buttons.themeChoice.value;
+    let css = selectors.themeChoice.value;
     if (css === 'day') {
         document.documentElement.style.setProperty("--color-dark", day.dark);
         document.documentElement.style.setProperty("--color-light", day.light);
@@ -110,15 +110,15 @@ export const themeUpdate = (event) => {
 }
 
 export const moreBooks = (event) => {
-    buttons.dataListItems.appendChild(createPreviewsFragment(matches))
-    buttons.singleBook = document.querySelectorAll(".preview");
-    for (let button of buttons.singleBook) {
+    selectors.dataListItems.appendChild(createPreviewsFragment(matches))
+    selectors.singleBook = document.querySelectorAll(".preview");
+    for (let button of selectors.singleBook) {
       button.addEventListener("click", singleBookPreview);
     }
-    buttons.moreButton.textContent = `Show more (${books.length - (BOOKS_PER_PAGE * page)})`;
+    selectors.moreButton.textContent = `Show more (${books.length - (BOOKS_PER_PAGE * page)})`;
     if (matches.length - page * BOOKS_PER_PAGE <= 0) {
-        buttons.moreButton.disabled = true;
-        buttons.moreButton.textContent = `Show more (0)`;
-    } else {buttons.moreButton.disabled = false;}
+        selectors.moreButton.disabled = true;
+        selectors.moreButton.textContent = `Show more (0)`;
+    } else {selectors.moreButton.disabled = false;}
 }
 
