@@ -65,7 +65,6 @@ selectors.searchGenres.appendChild(genresList);
 // This code creates the search options for authors
 const authorList = document.createDocumentFragment()
 let presetAuthor = 'All Authors'
-selectors.moreButton.innerText = `Shore more (0)`
 selectors.authorsOptions.innerHTML = `<option>${presetAuthor}</option>`;
 for (let [id, name] of Object.entries(authors)) {
     let authorOption = document.createElement('option')

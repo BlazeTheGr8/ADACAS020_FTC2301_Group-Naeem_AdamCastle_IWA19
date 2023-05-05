@@ -169,7 +169,8 @@ export const searchFunctions = (event) => {
 export const createSearchHTML = (event) => {
     event.preventDefault()
     selectors.searchMenu.close();
-    selectors.moreButton.disabled = true
+  selectors.moreButton.disabled = true
+  selectors.moreButton.textContent = `Show more (0)`;
     let results = []
     let genre = selectors.searchGenres.value;
     let author = selectors.authorsOptions.value
