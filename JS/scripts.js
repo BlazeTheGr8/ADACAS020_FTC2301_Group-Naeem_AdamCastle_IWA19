@@ -3,7 +3,6 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview, searchFunctions, createSearchHTML } from "./functions.js";
 
-export const matches = books
 const range = [0, BOOKS_PER_PAGE];
 export const fragment = document.createDocumentFragment();
 let page = 1;
@@ -12,7 +11,7 @@ if (!books && !Array.isArray(books)) throw new Error('Source required')
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
 // Adds the first 36 books to webpage
-selectors.dataListItems.appendChild(createPreviewsFragment(matches, 0, 36))
+selectors.dataListItems.appendChild(createPreviewsFragment(books, 0, 36))
 
 // This section of code adds all present book buttons to an array, then iterates through each of them to add an event listener for clicking, when clicked, the book preview will show to the user
 selectors.singleBook = document.querySelectorAll(".preview");
@@ -34,8 +33,8 @@ selectors.settingsCancel.addEventListener('click', settingsEvents)
 selectors.moreButton.innerHTML = /* html */
     `<span>Show more</span>
     <span class="list__remaining">${
-      matches.length - [page * BOOKS_PER_PAGE] > 0
-        ? matches.length - [page * BOOKS_PER_PAGE]
+      books.length - [page * BOOKS_PER_PAGE] > 0
+        ? books.length - [page * BOOKS_PER_PAGE]
         : 0
 }</span>`;
 
@@ -43,7 +42,7 @@ selectors.moreButton.innerHTML = /* html */
 selectors.moreButton.addEventListener('click', moreBooks) 
 
 // This sets the web theme to the same as the users device preferences
-selectors.themeSettings.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+selectors.themeSettings.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').books ? 'day' : 'night';
 
 // This code changes the them when the user saves their choice
 selectors.saveSettings.addEventListener('submit', themeUpdate)

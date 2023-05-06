@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
-import { fragment, matches } from "./scripts.js";
+import { fragment } from "./scripts.js";
 
 // page initialized for use in the createPreviewsFragment() function
 let page = 0;
@@ -48,9 +48,8 @@ const night = {
   light: "10, 10, 20",
 };
 
-
 /**
- * This function is by event listeners, when called, it will check if the bookPreview dialog tag is open, and if not, it will show it, if the target then becomes the bookPreviewClose button, the dialog tag will close. It also adds image, title, subtitle and description to the HTML for user viewing
+ * This function is used by event listeners, when called, it will check if the bookPreview dialog tag is open, and if not, it will show it, if the target then becomes the bookPreviewClose button, the dialog tag will close. It also adds image, title, subtitle and description to the HTML for user viewing
  */
 export const singleBookPreview = (event) => {
     const { target } = event;
@@ -77,11 +76,14 @@ export const singleBookPreview = (event) => {
 };
 
 /**
- * 
  * This function takes an array, a start and an end. It will then extract 36 books depending on where it starts and ends and create a button for each of them. The function then extracts the relevant information using destructuring and adds it the HTML where needed.
+ * @type {object} books 
+ * @type {number} start 
+ * @type {number} end 
+ * @returns {html}
  */
-export const createPreviewsFragment = (matches, start = (page * BOOKS_PER_PAGE), end = (page + 1) * BOOKS_PER_PAGE) => {
-    let extracted = matches.slice(start, end);
+export const createPreviewsFragment = (books, start = (page * BOOKS_PER_PAGE), end = (page + 1) * BOOKS_PER_PAGE) => {
+    let extracted = books.slice(start, end);
     page += 1
     for (const book of extracted) {
       const { author: authorId, id, image, title } = book;
@@ -138,13 +140,13 @@ export const themeUpdate = (event) => {
  *  This function will create buttons for the next 36 books, add relevant classings to them and then add them to the HTML
  */
 export const moreBooks = (event) => {
-    selectors.dataListItems.appendChild(createPreviewsFragment(matches))
+    selectors.dataListItems.appendChild(createPreviewsFragment(books))
     selectors.singleBook = document.querySelectorAll(".preview");
     for (let button of selectors.singleBook) {
       button.addEventListener("click", singleBookPreview);
     }
     selectors.moreButton.textContent = `Show more (${books.length - (BOOKS_PER_PAGE * page)})`;
-    if (matches.length - page * BOOKS_PER_PAGE <= 0) {
+    if (books.length - page * BOOKS_PER_PAGE <= 0) {
         selectors.moreButton.disabled = true;
         selectors.moreButton.textContent = `Show more (0)`;
     } else {selectors.moreButton.disabled = false;}
@@ -164,7 +166,7 @@ export const searchFunctions = (event) => {
 };
 
 /**
- * This function creates a results array which fills with book objects based on matches in the if else statements, once the loop completes, the results are pushed to the webpage
+ * This function creates a results array which fills with book objects based on books in the if else statements, once the loop completes, the results are pushed to the webpage
  */
 export const createSearchHTML = (event) => {
     event.preventDefault()
@@ -174,7 +176,7 @@ export const createSearchHTML = (event) => {
     let results = []
     let genre = selectors.searchGenres.value;
     let author = selectors.authorsOptions.value
-    for (let book of matches) {
+    for (let book of books) {
       if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
           results.push(book);
       } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
