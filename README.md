@@ -2,7 +2,7 @@
  
 ## book-connect
 
-#IWA Capstone project for CodeSpace.
+# IWA Capstone project for CodeSpace.
 * A book website where users can search for and view books by author, title and genre.
 
 # Authors
@@ -13,3 +13,6 @@
 * VSCode
 * html
 * css
+
+# Presentation of Ideas
+* https://drive.google.com/file/d/1RYceLq8HcOqt7c9Co5xM2Y6IV_DnxDul/view?usp=share_link
