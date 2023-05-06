@@ -174,7 +174,6 @@ export const createSearchHTML = (event) => {
     let results = []
     let genre = selectors.searchGenres.value;
     let author = selectors.authorsOptions.value
-    selectors.dataListItems.innerHTML = ``;
     for (let book of matches) {
       if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
           results.push(book);
@@ -196,6 +195,6 @@ export const createSearchHTML = (event) => {
     if (results.length === 0) {
       selectors.noResultsMessage.classList.add("list__message_show");
   }
-  console.log(results)
-    selectors.dataListItems.appendChild(createPreviewsFragment(results, 0, 36));
+  selectors.dataListItems.replaceChildren(createPreviewsFragment(results, 0, 36));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
