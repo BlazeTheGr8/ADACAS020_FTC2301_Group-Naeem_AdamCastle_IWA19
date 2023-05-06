@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
-import { fragment } from "./scripts.js";
+
+const FRAGMENT = document.createDocumentFragment();
 
 // page initialized for use in the createPreviewsFragment() function
 let page = 0;
@@ -103,9 +104,9 @@ export const createPreviewsFragment = (books, start = (page * BOOKS_PER_PAGE), e
             </div>
         `;
 
-      fragment.appendChild(preview);
+      FRAGMENT.appendChild(preview);
     }
-    return fragment
+    return FRAGMENT
 };
 
 /**

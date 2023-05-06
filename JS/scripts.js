@@ -3,12 +3,11 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview, searchFunctions, createSearchHTML } from "./functions.js";
 
-const range = [0, BOOKS_PER_PAGE];
-export const fragment = document.createDocumentFragment();
-let page = 1;
+const RANGE = [0, BOOKS_PER_PAGE];
+const PAGE = 1;
 
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
-if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
+if (!RANGE && RANGE.length < 2) throw new Error('Range must be an array with two numbers')
 
 // Adds the first 36 books to webpage
 selectors.dataListItems.appendChild(createPreviewsFragment(books, 0, 36))
@@ -33,8 +32,8 @@ selectors.settingsCancel.addEventListener('click', settingsEvents)
 selectors.moreButton.innerHTML = /* html */
     `<span>Show more</span>
     <span class="list__remaining">${
-      books.length - [page * BOOKS_PER_PAGE] > 0
-        ? books.length - [page * BOOKS_PER_PAGE]
+      books.length - [PAGE * BOOKS_PER_PAGE] > 0
+        ? books.length - [PAGE * BOOKS_PER_PAGE]
         : 0
 }</span>`;
 
