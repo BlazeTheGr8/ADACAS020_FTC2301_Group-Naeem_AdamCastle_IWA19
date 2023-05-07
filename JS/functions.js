@@ -199,5 +199,9 @@ export const createSearchHTML = (event) => {
       selectors.noResultsMessage.classList.add("list__message_show");
   }
   selectors.dataListItems.replaceChildren(createPreviewsFragment(results, 0, 36));
+  selectors.singleBook = document.querySelectorAll(".preview");
+  for (let button of selectors.singleBook) {
+    button.addEventListener("click", singleBookPreview);
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
