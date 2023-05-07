@@ -170,8 +170,9 @@ export const searchFunctions = (event) => {
  * This function creates a results array which fills with book objects based on books in the if else statements, once the loop completes, the results are pushed to the webpage
  */
 export const createSearchHTML = (event) => {
-    event.preventDefault()
-    selectors.searchMenu.close();
+  event.preventDefault()
+  selectors.searchMenu.close();
+  selectors.noResultsMessage.classList.remove("list__message_show");
   selectors.moreButton.disabled = true
   selectors.moreButton.textContent = `Show more (0)`;
     let results = []
