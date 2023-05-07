@@ -1,16 +1,19 @@
 //@ts-nocheck
 
+// imports used for calling objects and functions from other files
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 import { createPreviewsFragment, selectors, settingsEvents, themeUpdate, moreBooks, singleBookPreview, searchFunctions, createSearchHTML } from "./functions.js";
 
+// Range used to load first 36 books upon loading app
 const RANGE = [0, BOOKS_PER_PAGE];
+// This variable works with the more button to determine how many books remain after loading the first 36
 const PAGE = 1;
 
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
 if (!RANGE && RANGE.length < 2) throw new Error('Range must be an array with two numbers')
 
 // Adds the first 36 books to webpage
-selectors.dataListItems.appendChild(createPreviewsFragment(books, 0, 36))
+selectors.dataListItems.appendChild(createPreviewsFragment(books, RANGE[0], RANGE[1]))
 
 // This section of code adds all present book buttons to an array, then iterates through each of them to add an event listener for clicking, when clicked, the book preview will show to the user
 selectors.singleBook = document.querySelectorAll(".preview");
