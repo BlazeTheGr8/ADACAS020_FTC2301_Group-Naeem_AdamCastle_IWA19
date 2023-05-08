@@ -51,11 +51,11 @@ selectors.saveSettings.addEventListener('submit', themeUpdate)
 
 // This code creates the search options for genres
 const genresList = document.createDocumentFragment()
-let presetGenre = 'All Genres'
+const presetGenre = 'All Genres'
 selectors.searchGenres.innerHTML = `<option>${presetGenre}</option>`
 selectors.searchGenres.appendChild(genresList);
-for (let [genreID, genreName] of Object.entries(genres)) {
-    let genreOption = document.createElement("option");
+for (const [genreID, genreName] of Object.entries(genres)) {
+    const genreOption = document.createElement("option");
     genreOption.innerText = `${genreName}`
     genreOption.value = genreID
     genresList.appendChild(genreOption)
@@ -65,10 +65,10 @@ selectors.searchGenres.appendChild(genresList);
 
 // This code creates the search options for authors
 const authorList = document.createDocumentFragment()
-let presetAuthor = 'All Authors'
+const presetAuthor = 'All Authors'
 selectors.authorsOptions.innerHTML = `<option>${presetAuthor}</option>`;
-for (let [id, name] of Object.entries(authors)) {
-    let authorOption = document.createElement('option')
+for (const [id, name] of Object.entries(authors)) {
+    const authorOption = document.createElement('option')
     authorOption.innerText = `${name}`
     authorOption.value = id
     authorList.appendChild(authorOption)

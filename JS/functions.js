@@ -70,7 +70,7 @@ export const singleBookPreview = (event) => {
   } else if (target === selectors.bookPreviewClose) {
     selectors.bookPreview.close();
     }
-    for (let book of books) {
+    for (const book of books) {
         if (
           target.getAttribute("data-preview") === book.id ||
           target.parentNode.parentNode.getAttribute("data-preview") === book.id ||
@@ -95,12 +95,12 @@ export const singleBookPreview = (event) => {
  * @returns {html}
  */
 export const createPreviewsFragment = (books, start = (page * BOOKS_PER_PAGE), end = (page + 1) * BOOKS_PER_PAGE) => {
-    let extracted = books.slice(start, end);
+    const extracted = books.slice(start, end);
     page += 1
     for (const book of extracted) {
       const { author: authorId, id, image, title } = book;
 
-      let preview = document.createElement("button");
+      const preview = document.createElement("button");
       preview.classList = "preview";
       preview.setAttribute("data-preview", id);
       preview.innerHTML = `
@@ -137,7 +137,7 @@ export const settingsEvents = (event) => {
  */
 export const themeUpdate = (event) => {
     event.preventDefault()
-    let css = selectors.themeChoice.value;
+    const css = selectors.themeChoice.value;
     if (css === 'day') {
         document.documentElement.style.setProperty("--color-dark", day.dark);
         document.documentElement.style.setProperty("--color-light", day.light);
@@ -180,23 +180,28 @@ export const searchFunctions = (event) => {
 export const createSearchHTML = (event) => {
   event.preventDefault()
   selectors.searchMenu.close();
-  selectors.moreButton.disabled = true
-  selectors.moreButton.textContent = `Show more (0)`;
   const formData = new FormData(selectors.searchFormDiv)
   const filters = Object.fromEntries(formData)
-  let results = [];
-  for (let book of books) {
-    let titleMatch = filters.title.trim() === '' || book.title.toLowerCase().includes(filters.title.toLowerCase());
-    let authorMatch = filters.author === "All Authors" || book.author.includes(filters.author);
-    let genreMatch = filters.genre === "All Genres" || book.genres.includes(filters.genre)
+  const results = [];
+  for (const book of books) {
+    const titleMatch = filters.title.trim() === '' || book.title.toLowerCase().includes(filters.title.toLowerCase());
+    const authorMatch = filters.author === "All Authors" || book.author.includes(filters.author);
+    const genreMatch = filters.genre === "All Genres" || book.genres.includes(filters.genre)
     if (titleMatch && authorMatch && genreMatch) {
       results.push(book)
     }
   }
-    if (results.length === 0) {
+    if (results.length < 1) {
       selectors.noResultsMessage.classList.add("list__message_show");
     } else {
       selectors.noResultsMessage.classList.remove("list__message_show");
+  }
+  if (results.length <= 36) {
+    selectors.moreButton.disabled = true;
+    selectors.moreButton.textContent = `Show more (0)`;
+  } else {
+    selectors.moreButton.disabled = false;
+    selectors.moreButton.textContent = `Show more (${results.length - 36})`;
   }
   selectors.dataListItems.replaceChildren(createPreviewsFragment(results, 0, 36));
   addButtonEvents()
