@@ -50,6 +50,16 @@ const night = {
 };
 
 /**
+ * This function adds the .preview class to all book buttons and then adds a click event listener and function
+ */
+export const addButtonEvents = () => {
+  selectors.singleBook = document.querySelectorAll(".preview");
+  for (let button of selectors.singleBook) {
+    button.addEventListener("click", singleBookPreview);
+  }
+} 
+
+/**
  * This function is used by event listeners, when called, it will check if the bookPreview dialog tag is open, and if not, it will show it, if the target then becomes the bookPreviewClose button, the dialog tag will close. It also adds image, title, subtitle and description to the HTML for user viewing
  */
 export const singleBookPreview = (event) => {
@@ -142,10 +152,7 @@ export const themeUpdate = (event) => {
  */
 export const moreBooks = (event) => {
     selectors.dataListItems.appendChild(createPreviewsFragment(books))
-    selectors.singleBook = document.querySelectorAll(".preview");
-    for (let button of selectors.singleBook) {
-      button.addEventListener("click", singleBookPreview);
-    }
+  addButtonEvents();
     selectors.moreButton.textContent = `Show more (${books.length - (BOOKS_PER_PAGE * page)})`;
     if (books.length - page * BOOKS_PER_PAGE <= 0) {
         selectors.moreButton.disabled = true;
@@ -200,9 +207,6 @@ export const createSearchHTML = (event) => {
       selectors.noResultsMessage.classList.add("list__message_show");
   }
   selectors.dataListItems.replaceChildren(createPreviewsFragment(results, 0, 36));
-  selectors.singleBook = document.querySelectorAll(".preview");
-  for (let button of selectors.singleBook) {
-    button.addEventListener("click", singleBookPreview);
-  }
+  addButtonEvents()
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
