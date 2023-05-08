@@ -35,6 +35,7 @@ export const selectors = {
   searchMenu: document.querySelector("[data-search-overlay]"),
   searchTitle: document.querySelector("[data-search-title"),
   noResultsMessage: document.querySelector("[data-list-message]"),
+  searchFormDiv: document.querySelector('[id="search"]'),
 };
 
 // Object for theme color values used in themeUpdate() function
@@ -179,34 +180,47 @@ export const searchFunctions = (event) => {
 export const createSearchHTML = (event) => {
   event.preventDefault()
   selectors.searchMenu.close();
-  selectors.noResultsMessage.classList.remove("list__message_show");
   selectors.moreButton.disabled = true
   selectors.moreButton.textContent = `Show more (0)`;
-    let results = []
-    let genre = selectors.searchGenres.value;
-    let author = selectors.authorsOptions.value
-    for (let book of books) {
-      if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
-          results.push(book);
-      } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
-          results.push(book);
-      } else if (genre === "All Genres" && book.author === author && selectors.searchTitle.value === ""
-      ) {
-          results.push(book);
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && author === "All Authors" && genre === "All Genres") {
-          results.push(book)
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && book.author === author) {
-          results.push(book);
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && author === "All Authors") {
-          results.push(book);
-      } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
-          results.push(book);
-      } 
+  const formData = new FormData(selectors.searchFormDiv)
+  const filters = Object.fromEntries(formData)
+  let results = [];
+  for (let book of books) {
+    let titleMatch = filters.title.trim() === '' || book.title.toLowerCase().includes(filters.title.toLowerCase());
+    let authorMatch = filters.author === "All Authors" || book.author.includes(filters.author);
+    let genreMatch = filters.genre === "All Genres" || book.genres.includes(filters.genre)
+    if (titleMatch && authorMatch && genreMatch) {
+      results.push(book)
+    }
   }
     if (results.length === 0) {
       selectors.noResultsMessage.classList.add("list__message_show");
+    } else {
+      selectors.noResultsMessage.classList.remove("list__message_show");
   }
   selectors.dataListItems.replaceChildren(createPreviewsFragment(results, 0, 36));
   addButtonEvents()
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// The below lines of code are for presentation purposes only, please do not uncomment. 
+  //   let genre = selectors.searchGenres.value;
+  //   let author = selectors.authorsOptions.value
+  //   for (let book of books) {
+  //     if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
+  //         results.push(book);
+  //     } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
+  //         results.push(book);
+  //     } else if (genre === "All Genres" && book.author === author && selectors.searchTitle.value === ""
+  //     ) {
+  //         results.push(book);
+  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && author === "All Authors" && genre === "All Genres") {
+  //         results.push(book)
+  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && book.author === author) {
+  //         results.push(book);
+  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && author === "All Authors") {
+  //         results.push(book);
+  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
+  //         results.push(book);
+  //     } 
+  // }
