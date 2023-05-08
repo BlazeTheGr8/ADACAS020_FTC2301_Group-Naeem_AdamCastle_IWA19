@@ -152,7 +152,7 @@ export const themeUpdate = (event) => {
  */
 export const moreBooks = (event) => {
     selectors.dataListItems.appendChild(createPreviewsFragment(books))
-  addButtonEvents();
+    addButtonEvents();
     selectors.moreButton.textContent = `Show more (${books.length - (BOOKS_PER_PAGE * page)})`;
     if (books.length - page * BOOKS_PER_PAGE <= 0) {
         selectors.moreButton.disabled = true;
