@@ -36,6 +36,7 @@ export const selectors = {
   searchTitle: document.querySelector("[data-search-title"),
   noResultsMessage: document.querySelector("[data-list-message]"),
   searchFormDiv: document.querySelector('[id="search"]'),
+  cssSelector: document.documentElement.style,
 };
 
 // Object for theme color values used in themeUpdate() function
@@ -139,11 +140,11 @@ export const themeUpdate = (event) => {
     event.preventDefault()
     const css = selectors.themeChoice.value;
     if (css === 'day') {
-        document.documentElement.style.setProperty("--color-dark", day.dark);
-        document.documentElement.style.setProperty("--color-light", day.light);
+        selectors.cssSelector.setProperty("--color-dark", day.dark);
+        selectors.cssSelector.setProperty("--color-light", day.light);
     } else if (css === "night") {
-        document.documentElement.style.setProperty("--color-dark", night.dark);
-        document.documentElement.style.setProperty("--color-light", night.light);
+        selectors.cssSelector.setProperty("--color-dark", night.dark);
+        selectors.cssSelector.setProperty("--color-light", night.light);
     }
     document.querySelector("[data-settings-overlay]").close();
 }
@@ -207,25 +208,3 @@ export const createSearchHTML = (event) => {
   addButtonEvents()
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-// The below lines of code are for presentation purposes only, please do not uncomment. 
-  //   let genre = selectors.searchGenres.value;
-  //   let author = selectors.authorsOptions.value
-  //   for (let book of books) {
-  //     if (book.genres.includes(genre) && book.author === author && selectors.searchTitle.value === "") {
-  //         results.push(book);
-  //     } else if (book.genres.includes(genre) && author === "All Authors" && selectors.searchTitle.value === ""){
-  //         results.push(book);
-  //     } else if (genre === "All Genres" && book.author === author && selectors.searchTitle.value === ""
-  //     ) {
-  //         results.push(book);
-  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && author === "All Authors" && genre === "All Genres") {
-  //         results.push(book)
-  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && book.author === author) {
-  //         results.push(book);
-  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && book.genres.includes(genre) && author === "All Authors") {
-  //         results.push(book);
-  //     } else if (book.title.toLowerCase().includes(selectors.searchTitle.value.toLowerCase()) && genre === "All Genres" && book.author === author) {
-  //         results.push(book);
-  //     } 
-  // }
