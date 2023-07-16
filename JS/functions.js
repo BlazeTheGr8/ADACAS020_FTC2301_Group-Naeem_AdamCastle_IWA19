@@ -63,6 +63,7 @@ export const addButtonEvents = () => {
 
 /**
  * This function is used by event listeners, when called, it will check if the bookPreview dialog tag is open, and if not, it will show it, if the target then becomes the bookPreviewClose button, the dialog tag will close. It also adds image, title, subtitle and description to the HTML for user viewing
+ 
  */
 export const singleBookPreview = (event) => {
     const { target } = event;
@@ -90,10 +91,10 @@ export const singleBookPreview = (event) => {
 
 /**
  * This function takes an array, a start and an end. It will then extract 36 books depending on where it starts and ends and create a button for each of them. The function then extracts the relevant information using destructuring and adds it the HTML where needed.
- * @type {object} books 
- * @type {number} start 
- * @type {number} end 
- * @returns {html}
+ * @param {object} books 
+ * @param {number} start 
+ * @param {number} end 
+ * @returns {HTMLElement}
  */
 export const createPreviewsFragment = (books, start = (page * BOOKS_PER_PAGE), end = (page + 1) * BOOKS_PER_PAGE) => {
     const extracted = books.slice(start, end);
