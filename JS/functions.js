@@ -65,29 +65,29 @@ export const addButtonEvents = () => {
  * This function is used by event listeners, when called, it will check if the bookPreview dialog tag is open, and if not, it will show it, if the target then becomes the bookPreviewClose button, the dialog tag will close. It also adds image, title, subtitle and description to the HTML for user viewing
  
  */
-export const singleBookPreview = (event) => {
-    const { target } = event;
-    if (selectors.bookPreview.open === false) {
-    selectors.bookPreview.showModal();
-  } else if (target === selectors.bookPreviewClose) {
-    selectors.bookPreview.close();
-    }
-    for (const book of books) {
-        if (
-          target.getAttribute("data-preview") === book.id ||
-          target.parentNode.parentNode.getAttribute("data-preview") === book.id ||
-          target.parentNode.getAttribute("data-preview") === book.id
-        ) {
-          selectors.bookPreviewImage.src = book.image;
-          selectors.bookPreviewBlur.src = book.image;
-          selectors.bookPreviewTitle.textContent = book.title;
-          selectors.bookPreviewSubtitle.textContent = `${
-            authors[book.author]
-          } (${new Date(book.published).getFullYear()})`;
-          selectors.bookPreviewDescription.textContent = book.description;
-        }
-    }
-};
+// export const singleBookPreview = (event) => {
+//     const { target } = event;
+//     if (selectors.bookPreview.open === false) {
+//     selectors.bookPreview.showModal();
+//   } else if (target === selectors.bookPreviewClose) {
+//     selectors.bookPreview.close();
+//     }
+//     for (const book of books) {
+//         if (
+//           target.getAttribute("data-preview") === book.id ||
+//           target.parentNode.parentNode.getAttribute("data-preview") === book.id ||
+//           target.parentNode.getAttribute("data-preview") === book.id
+//         ) {
+//           selectors.bookPreviewImage.src = book.image;
+//           selectors.bookPreviewBlur.src = book.image;
+//           selectors.bookPreviewTitle.textContent = book.title;
+//           selectors.bookPreviewSubtitle.textContent = `${
+//             authors[book.author]
+//           } (${new Date(book.published).getFullYear()})`;
+//           selectors.bookPreviewDescription.textContent = book.description;
+//         }
+//     }
+// };
 
 /**
  * This function takes an array, a start and an end. It will then extract 36 books depending on where it starts and ends and create a button for each of them. The function then extracts the relevant information using destructuring and adds it the HTML where needed.
